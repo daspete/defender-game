@@ -10,10 +10,10 @@ class MouseInput {
         this.game = game;
 
         document.removeEventListener('mousemove', (e) => { this.OnMouseMove(e) }, false);
-        document.removeEventListener('mousedown', (e) => { this.OnMouseDown(e) }, false);
+        //document.removeEventListener('mousedown', (e) => { this.OnMouseDown(e) }, false);
 
         document.addEventListener('mousemove', (e) => { this.OnMouseMove(e) }, false);
-        document.addEventListener('mousedown', (e) => { this.OnMouseDown(e) }, false);
+        //document.addEventListener('mousedown', (e) => { this.OnMouseDown(e) }, false);
     }
 
     OnMouseMove(e){

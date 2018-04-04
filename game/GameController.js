@@ -11,6 +11,7 @@ import Player from './objects/Player'
 
 import EventController from './controllers/EventController'
 import MouseInput from './inputs/MouseInput'
+import GroundCaster from './casters/GroundCaster'
 
 
 class GameController {
@@ -19,12 +20,9 @@ class GameController {
         this.settings = settings;
 
         this.events = new EventController();
-
-        this.inputs = {
-            mouse: new MouseInput(this)
-        };
-
         this.scene = new Scene();
+
+        
 
         this.camera = new PerspectiveCamera(
             75, 
@@ -42,6 +40,15 @@ class GameController {
 
         this.settings.container.innerHtml = '';
         this.settings.container.appendChild(this.renderer.domElement);
+
+        this.inputs = {
+            mouse: new MouseInput(this)
+        };
+
+        this.casters = {
+            ground: new GroundCaster(this)
+        };
+
 
         this.CreateGrid();
         this.CreatePlayer();
