@@ -7,10 +7,12 @@
   "license": "MIT",
   "scripts": {
     "dev": "nuxt",
-    "generate": "cross-env DEPLOY_ENV=GH_PAGES nuxt generate"
+    "generate:gh-pages": "cross-env DEPLOY_ENV=GH_PAGES nuxt generate",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "cross-env": "^5.1.4",
+    "gh-pages": "^1.1.0",
     "node-sass": "^4.8.3",
     "nuxt": "^1.4.0",
     "sass-loader": "^6.0.7",
