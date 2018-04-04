@@ -1,0 +1,15 @@
+{
+  "name": "defender-game",
+  "version": "1.0.0",
+  "description": "WebGL game",
+  "main": "index.js",
+  "author": "DasPeTe <daspetemail@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nuxt"
+  },
+  "dependencies": {
+    "nuxt": "^1.4.0",
+    "three": "^0.91.0"
+  }
+}
