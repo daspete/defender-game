@@ -2,15 +2,27 @@ import {
     Scene,
     PerspectiveCamera,
     WebGLRenderer,
-    Vector3
+    Vector3,
+    GridHelper
 } from 'three'
 
+import MeshGenerator from './generators/MeshGenerator'
 import Player from './objects/Player'
+
+import EventController from './controllers/EventController'
+import MouseInput from './inputs/MouseInput'
+
 
 class GameController {
 
     constructor(settings){
         this.settings = settings;
+
+        this.events = new EventController();
+
+        this.inputs = {
+            mouse: new MouseInput(this)
+        };
 
         this.scene = new Scene();
 
@@ -21,19 +33,26 @@ class GameController {
             1000
         );
 
-        this.camera.position.set(0,0,5);
+        this.camera.position.set(0,50,50);
         this.camera.lookAt(new Vector3(0,0,0));
 
-        this.renderer = new WebGLRenderer();
+        this.renderer = new WebGLRenderer({ antialias: true });
 
         this.renderer.setSize(this.settings.width, this.settings.height);
 
         this.settings.container.innerHtml = '';
         this.settings.container.appendChild(this.renderer.domElement);
 
+        this.CreateGrid();
         this.CreatePlayer();
 
         this.Update();
+    }
+
+    CreateGrid(){
+        this.grid = new GridHelper(1000, 100);
+
+        this.scene.add(this.grid);
     }
 
     CreatePlayer(){
