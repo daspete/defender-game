@@ -1,9 +1,3 @@
-import {
-    Raycaster,
-    Vector2,
-    Vector3
-} from 'three'
-
 import MeshGenerator from '../generators/MeshGenerator'
 
 
@@ -20,8 +14,8 @@ class Player {
             material: {
                 color: 0xff0000,
             }
-            
         });
+        
         this.gameObject.position.set(0,0,0);
 
         this.game.scene.add(this.gameObject);

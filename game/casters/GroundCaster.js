@@ -1,12 +1,9 @@
 import {
     Raycaster,
-    Vector2,
     Vector3
 } from 'three'
 
 import MeshGenerator from '../generators/MeshGenerator'
-
-
 
 class GroundCaster {
 
@@ -15,7 +12,7 @@ class GroundCaster {
 
         this.raycaster = new Raycaster();
 
-        this.plane = MeshGenerator.Plane({
+        this.ground = MeshGenerator.Plane({
             width: 1000,
             height: 1000,
             material: {
@@ -23,7 +20,9 @@ class GroundCaster {
             }
         });
 
-        this.game.scene.add(this.plane);
+        this.position = new Vector3();
+
+        this.game.scene.add(this.ground);
 
         this.game.events.on('mousemove', (position) => { this.OnMouseMove(position) });
     }
@@ -31,17 +30,13 @@ class GroundCaster {
     OnMouseMove(position){
         this.raycaster.setFromCamera(position, this.game.camera);
 
-        let intersects = this.raycaster.intersectObjects([this.plane]);
+        let intersects = this.raycaster.intersectObjects([this.ground]);
 
         if(intersects.length > 0){
-            let intersect = intersects[0];
+            this.position.copy(intersects[0].point).add(intersects[0].face.normal);
+            this.position.divideScalar(2).floor().multiplyScalar(2).addScalar(1);
 
-            let _position = new Vector3();
-
-            _position.copy(intersect.point).add(intersect.face.normal);
-            _position.divideScalar(2).floor().multiplyScalar(2).addScalar(1);
-
-            this.game.events.emit('ground.hit', _position);
+            this.game.events.emit('ground.hit', this.position);
         }
     }
 
