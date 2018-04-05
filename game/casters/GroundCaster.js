@@ -26,7 +26,7 @@ class GroundCaster {
         this.game.scene.add(this.ground);
 
         this.game.events.on('mousemove', (position) => { this.OnMouseMove(position) });
-        this.game.events.on('mousedown', (position) => { this.OnMouseDown(position) });
+        this.game.events.on('mousedown', (result) => { this.OnMouseDown(result) });
     }
 
     OnMouseMove(position){
@@ -42,9 +42,9 @@ class GroundCaster {
         }
     }
 
-    OnMouseDown(position){
-        console.log(position);
-        this.raycaster.setFromCamera(position, this.game.camera);
+    OnMouseDown(result){
+        console.log(result);
+        this.raycaster.setFromCamera(result.position, this.game.camera);
 
         let intersects = this.raycaster.intersectObjects([this.ground]);
 
@@ -52,7 +52,12 @@ class GroundCaster {
             this.touchPosition.copy(intersects[0].point).add(intersects[0].face.normal);
             this.touchPosition.divideScalar(2).floor().multiplyScalar(2).addScalar(1);
 
-            this.game.events.emit('ground.hit.touch', this.touchPosition);
+            if(result.button == 1){
+                this.game.events.emit('ground.hit.touch', this.touchPosition);
+            }else if(result.button == 3){
+                this.game.events.emit('ground.hit.touchright', this.touchPosition);
+            }
+            
         }
     }
 

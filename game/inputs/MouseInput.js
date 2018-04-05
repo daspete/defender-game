@@ -7,6 +7,10 @@ class MouseInput {
     constructor(game){
         this.game = game;
 
+        document.oncontextmenu = function(e){
+            e.preventDefault();
+        };
+
         this.game.settings.container.removeEventListener('mousemove', (e) => { this.OnMouseMove(e) }, false);
         this.game.settings.container.removeEventListener('mousedown', (e) => { this.OnMouseDown(e) }, false);
 
@@ -26,12 +30,15 @@ class MouseInput {
     OnMouseDown(e){
         e.preventDefault();
 
-        console.log(e.clientX, e.clientY);
-
-        this.game.events.emit('mousedown', new Vector2().set(
+        let position = new Vector2().set(
             (e.clientX / this.game.settings.width) * 2 - 1,
             -(e.clientY / this.game.settings.height) * 2 + 1
-        ));
+        );
+
+        this.game.events.emit('mousedown', {
+            position,
+            button: e.which
+        });
     }
 
 }

@@ -57,7 +57,7 @@ class GameController {
     }
 
     CreateGrid(){
-        this.grid = new GridHelper(1000, 100);
+        this.grid = new GridHelper(1000, 50, 0xff9900, 0xff9900);
 
         this.scene.add(this.grid);
     }
