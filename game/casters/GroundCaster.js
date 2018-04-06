@@ -57,7 +57,6 @@ class GroundCaster {
             }else if(result.button == 3){
                 this.game.events.emit('ground.hit.touchright', this.touchPosition);
             }
-            
         }
     }
 

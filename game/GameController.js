@@ -3,7 +3,10 @@ import {
     PerspectiveCamera,
     WebGLRenderer,
     Vector3,
-    GridHelper
+    GridHelper,
+    PointLight,
+    HemisphereLight,
+    ReinhardToneMapping
 } from 'three'
 
 import MeshGenerator from './generators/MeshGenerator'
@@ -31,6 +34,12 @@ class GameController {
         this.camera.lookAt(new Vector3(0, 0, 0));
 
         this.renderer = new WebGLRenderer({ antialias: true });
+        this.renderer.physicallyCorrectLights = true;
+        this.renderer.gammaInput = true;
+        this.renderer.gammaOutput = true;
+        this.renderer.shadowMap.enabled = true;
+        this.renderer.toneMapping = ReinhardToneMapping;
+        this.renderer.toneMappingExposure = 0.4;
         this.renderer.setSize(this.settings.width, this.settings.height);
 
         this.settings.container.innerHtml = '';
@@ -52,6 +61,8 @@ class GameController {
 
         this.CreateGrid();
 
+        this.CreateLight();
+
 
         this.Update();
     }
@@ -60,6 +71,23 @@ class GameController {
         this.grid = new GridHelper(1000, 50, 0xff9900, 0xff9900);
 
         this.scene.add(this.grid);
+    }
+
+    CreateLight(){
+        this.lights = {
+            ambient: new HemisphereLight(0xddeeff, 0x0f0e0d, 0.02),
+            sun: new PointLight(0xffee88, 1, 100, 2)
+        };
+
+        this.lights.sun.castShadow = true;
+        this.lights.sun.position.set(0, 20, 0);
+        this.lights.sun.power = 800;
+
+        this.lights.ambient.intensity = 10;
+
+        this.scene.add(this.lights.sun);
+        this.scene.add(this.lights.ambient);
+
     }
 
 

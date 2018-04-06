@@ -20,7 +20,8 @@ class BuildMode {
             depth: 1.1,
             material: {
                 color: 0x00ff00,
-                opacity: 0.5
+                opacity: 0.5,
+                transparent: true
             }
         });
     }
@@ -60,9 +61,12 @@ class BuildMode {
 
     OnTouch(position){
         if(this.GetTowerOnPosition(position) != false) return false;
+        
         this.game.controllers.tower.BuildTower({
             position
         });
+
+        this.SetDestroyMode();
     }
 
     OnTouchRight(position){
@@ -72,6 +76,8 @@ class BuildMode {
         if(tower != false){
             this.game.controllers.tower.DestroyTower(tower);
         }
+
+        this.SetBuildMode();
         
     }
 

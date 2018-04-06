@@ -1,11 +1,19 @@
+import {
+    Object3D,
+    ObjectLoader
+} from 'three'
+
 import MeshGenerator from '../generators/MeshGenerator'
 
 import BuildMode from '../modes/BuildMode'
+
+import Tower1 from '~/assets/models/towers/Tower1.json'
 
 class TowerController {
 
     constructor(game){
         this.game = game;
+        this.loader = new ObjectLoader();
 
         this.towers = [];
     }
@@ -16,9 +24,13 @@ class TowerController {
             height: 2,
             depth: 1,
             material: {
-                color: 0x0099ff
+                opacity: 0,
+                transparent: true
             }
         });
+
+        let towerGraphic = this.loader.parse(Tower1);
+        tower.add(towerGraphic);
 
         this.game.scene.add(tower);
         
