@@ -14,6 +14,7 @@ import MeshGenerator from './generators/MeshGenerator'
 import EventController from './controllers/EventController'
 import PlayerController from './controllers/PlayerController'
 import TowerController from './controllers/TowerController'
+import CreepController from './controllers/CreepController'
 
 import MouseInput from './inputs/MouseInput'
 
@@ -30,7 +31,7 @@ class GameController {
 
         this.camera = new PerspectiveCamera(75, this.settings.width / this.settings.height, 0.1, 1000);
 
-        this.camera.position.set(0, 50, 50);
+        this.camera.position.set(0, 20, 50);
         this.camera.lookAt(new Vector3(0, 0, 0));
 
         this.renderer = new WebGLRenderer({ antialias: true });
@@ -55,14 +56,18 @@ class GameController {
 
         this.controllers = {
             player: new PlayerController(this),
-            tower: new TowerController(this)
+            tower: new TowerController(this),
+            creep: new CreepController(this)
         };
 
+
+        
 
         this.CreateGrid();
 
         this.CreateLight();
 
+        this.StartCreepSpawner();
 
         this.Update();
     }
@@ -90,6 +95,14 @@ class GameController {
 
     }
 
+    async StartCreepSpawner(){
+        this.controllers.creep.SpawnCreep({});
+
+        await this.Sleep(200);
+
+        this.StartCreepSpawner();
+    }
+
 
     Update(){
         requestAnimationFrame(() => { this.Update() });
@@ -97,6 +110,12 @@ class GameController {
         this.controllers.player.Update();
 
         this.renderer.render(this.scene, this.camera);
+    }
+
+    Sleep(ms) {
+        return new Promise(function (resolve, reject) {
+            setTimeout(resolve, ms);
+        });
     }
 
 }
