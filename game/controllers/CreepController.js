@@ -22,6 +22,10 @@ class CreepController {
             depth: 1,
             material: {
                 color: 0xff0000,
+            },
+            shadow: {
+                cast: true,
+                receive: true
             }
         });
 

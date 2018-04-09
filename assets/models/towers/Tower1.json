@@ -16,6 +16,8 @@
         "depthTest": true,
         "color": 16711680,
         "emissive": 0,
+        "castShadow": true,
+        "receiveShadow": true,
         "uuid": "BAA12A36-7C84-3F45-BBC9-C98F423700AF"
     }],
     "geometries": [{

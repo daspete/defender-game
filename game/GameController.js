@@ -20,6 +20,8 @@ import MouseInput from './inputs/MouseInput'
 
 import GroundCaster from './casters/GroundCaster'
 
+import TestLevel from './levels/TestLevel'
+
 
 class GameController {
 
@@ -31,7 +33,7 @@ class GameController {
 
         this.camera = new PerspectiveCamera(75, this.settings.width / this.settings.height, 0.1, 1000);
 
-        this.camera.position.set(0, 20, 50);
+        this.camera.position.set(0, 40, 60);
         this.camera.lookAt(new Vector3(0, 0, 0));
 
         this.renderer = new WebGLRenderer({ antialias: true });
@@ -60,16 +62,19 @@ class GameController {
             creep: new CreepController(this)
         };
 
+        this.levels = {
+            testLevel: new TestLevel(this)
+        };
 
         
 
-        this.CreateGrid();
+        this.level = this.levels.testLevel;
 
-        this.CreateLight();
+        this.levels.testLevel.LoadLevel(() => { this.OnLevelLoaded() });
 
-        this.StartCreepSpawner();
+        //this.CreateGrid();
 
-        this.Update();
+        
     }
 
     CreateGrid(){
@@ -81,18 +86,27 @@ class GameController {
     CreateLight(){
         this.lights = {
             ambient: new HemisphereLight(0xddeeff, 0x0f0e0d, 0.02),
-            sun: new PointLight(0xffee88, 1, 100, 2)
+            sun: new PointLight(0xffee88, 1, 300, 1)
         };
 
         this.lights.sun.castShadow = true;
-        this.lights.sun.position.set(0, 20, 0);
-        this.lights.sun.power = 800;
+        this.lights.sun.position.set(0, 50, 0);
+        this.lights.sun.power = 1600;
 
-        this.lights.ambient.intensity = 10;
+        this.lights.ambient.intensity = 2;
 
         this.scene.add(this.lights.sun);
         this.scene.add(this.lights.ambient);
 
+    }
+
+    OnLevelLoaded(){
+        this.scene.add(this.level.environment);
+        this.CreateLight();
+
+        //this.StartCreepSpawner();
+
+        this.Update();
     }
 
     async StartCreepSpawner(){
