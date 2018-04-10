@@ -18,7 +18,7 @@ class CreepController {
     }
 
     SpawnCreep(settings){
-        if(this.creeps.length > 200) return;
+        if(this.creeps.length > 50) return;
         let x = Math.round(-100 + Math.random() * 200);
         let z = Math.round(-300 + Math.random() * 200);
         x = x % 2 == 0 ? x : x + 1;
