@@ -34,21 +34,21 @@ class CreepController {
     }
 
     Update(){
-        this.creeps.forEach(({mesh, entity}) => {
-            entity.maxSpeed = 0.2;
-            entity.maxForce = 0.01;
+        for(let i = 0; i < this.creeps.length; i++){
+            this.creeps[i].entity.maxSpeed = 0.2;
+            this.creeps[i].entity.maxForce = 0.01;
 
-            entity.wanderDistance = 2;
-            entity.wanderRadius = 2;
-            entity.wanderRange = 1;
-            entity.avoidDistance = 2;
-            entity.radius = 3;
-            entity.wander();
-            entity.avoid(this.entities);
-            entity.lookWhereGoing(true);
-            entity.update();
-            mesh.position.copy(entity.position);
-        });
+            this.creeps[i].entity.wanderDistance = 2;
+            this.creeps[i].entity.wanderRadius = 2;
+            this.creeps[i].entity.wanderRange = 1;
+            this.creeps[i].entity.avoidDistance = 2;
+            this.creeps[i].entity.radius = 3;
+            this.creeps[i].entity.wander();
+            this.creeps[i].entity.avoid(this.entities);
+            this.creeps[i].entity.lookWhereGoing(true);
+            this.creeps[i].entity.update();
+            this.creeps[i].mesh.position.copy(this.creeps[i].entity.position);
+        }
     }
 
 }
