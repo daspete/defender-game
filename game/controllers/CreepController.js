@@ -1,11 +1,12 @@
 import {
+    Vector3,
     Object3D,
     ObjectLoader
 } from 'three'
 
 import TweenMax from 'gsap'
 
-import MeshGenerator from '../generators/MeshGenerator'
+import BaseCreep from '../creeps/BaseCreep'
 
 class CreepController {
 
@@ -13,37 +14,41 @@ class CreepController {
         this.game = game;
 
         this.creeps = [];
+        this.entities = [];
     }
 
     SpawnCreep(settings){
-        let creep = MeshGenerator.Cube({
-            width: 1,
-            height: 2,
-            depth: 1,
-            material: {
-                color: 0xff0000,
-            },
-            shadow: {
-                cast: true,
-                receive: true
-            }
-        });
-
+        if(this.creeps.length > 200) return;
         let x = Math.round(-100 + Math.random() * 200);
+        let z = Math.round(-300 + Math.random() * 200);
         x = x % 2 == 0 ? x : x + 1;
-
-        creep.position.set(x, 0, -100);
-
-        this.game.scene.add(creep);
         
-        TweenMax.to(creep.position, 10, {
-            x: x,
-            y: 0,
-            z: 50,
-            ease: Linear.easeNone
+        let creep = new BaseCreep(this.game, {
+            position: new Vector3(x, 0, z)
         });
+
+        this.game.scene.add(creep.mesh);
 
         this.creeps.push(creep);
+        this.entities.push(creep.entity);
+    }
+
+    Update(){
+        this.creeps.forEach(({mesh, entity}) => {
+            entity.maxSpeed = 0.2;
+            entity.maxForce = 0.01;
+
+            entity.wanderDistance = 2;
+            entity.wanderRadius = 2;
+            entity.wanderRange = 1;
+            entity.avoidDistance = 2;
+            entity.radius = 3;
+            entity.wander();
+            entity.avoid(this.entities);
+            entity.lookWhereGoing(true);
+            entity.update();
+            mesh.position.copy(entity.position);
+        });
     }
 
 }

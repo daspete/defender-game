@@ -11,7 +11,12 @@ class MeshGenerator {
         let geometry = new BoxGeometry(settings.width, settings.height, settings.depth);
         let material = new MeshBasicMaterial(settings.material);
 
-        return new Mesh(geometry, material);
+        let mesh = new Mesh(geometry, material);
+
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
+
+        return mesh;
     }
 
     static Plane(settings){

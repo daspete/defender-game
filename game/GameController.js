@@ -20,6 +20,8 @@ import MouseInput from './inputs/MouseInput'
 
 import GroundCaster from './casters/GroundCaster'
 
+import Pathfinder from './pathfinding/Pathfinder'
+
 import TestLevel from './levels/TestLevel'
 
 
@@ -33,8 +35,8 @@ class GameController {
 
         this.camera = new PerspectiveCamera(75, this.settings.width / this.settings.height, 0.1, 1000);
 
-        this.camera.position.set(0, 40, 60);
-        this.camera.lookAt(new Vector3(0, 0, 0));
+        this.camera.position.set(0, 40, -110);
+        this.camera.lookAt(new Vector3(0, 0, -150));
 
         this.renderer = new WebGLRenderer({ antialias: true });
         this.renderer.physicallyCorrectLights = true;
@@ -66,6 +68,8 @@ class GameController {
             testLevel: new TestLevel(this)
         };
 
+        this.pathfinder = new Pathfinder(this);
+
         
 
         this.level = this.levels.testLevel;
@@ -90,7 +94,7 @@ class GameController {
         };
 
         this.lights.sun.castShadow = true;
-        this.lights.sun.position.set(0, 50, 0);
+        this.lights.sun.position.set(0, 50, -200);
         this.lights.sun.power = 1600;
 
         this.lights.ambient.intensity = 2;
@@ -104,7 +108,7 @@ class GameController {
         this.scene.add(this.level.environment);
         this.CreateLight();
 
-        //this.StartCreepSpawner();
+        this.StartCreepSpawner();
 
         this.Update();
     }
@@ -122,6 +126,7 @@ class GameController {
         requestAnimationFrame(() => { this.Update() });
 
         this.controllers.player.Update();
+        this.controllers.creep.Update();
 
         this.renderer.render(this.scene, this.camera);
     }
