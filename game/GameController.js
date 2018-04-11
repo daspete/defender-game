@@ -24,6 +24,8 @@ import Pathfinder from './pathfinding/Pathfinder'
 
 import TestLevel from './levels/TestLevel'
 
+import ObjectLoader from './loaders/ObjectLoader'
+
 
 class GameController {
 
@@ -50,6 +52,29 @@ class GameController {
         this.settings.container.innerHtml = '';
         this.settings.container.appendChild(this.renderer.domElement);
 
+        this.objectLoader = new ObjectLoader({
+            game: this,
+            objects: [
+                {
+                    name: 'testlevel',
+                    url: 'assets/models/levels/TestLevel/TestLevel.fbx'
+                },
+                {
+                    name: 'druidcreep1',
+                    url: 'assets/models/creeps/Druide1.fbx'
+                },
+                {
+                    name: 'druidcreep2',
+                    url: 'assets/models/creeps/Druide2.fbx'
+                },
+                {
+                    name: 'xfighter',
+                    url: 'assets/models/creeps/XFighter.fbx'
+                }                
+            ],
+            callback: () => { this.OnObjectsLoaded(); }
+        })
+
         this.inputs = {
             mouse: new MouseInput(this)
         };
@@ -67,44 +92,35 @@ class GameController {
         this.levels = {
             testLevel: new TestLevel(this)
         };
+        this.level = this.levels.testLevel;
 
         this.pathfinder = new Pathfinder(this);
 
-        
-
-        this.level = this.levels.testLevel;
-
-        this.levels.testLevel.LoadLevel(() => { this.OnLevelLoaded() });
-
-        //this.CreateGrid();
-
-        
+        //this.levels.testLevel.LoadLevel(() => { this.OnLevelLoaded() });
     }
 
-    CreateGrid(){
-        this.grid = new GridHelper(1000, 50, 0xff9900, 0xff9900);
-
-        this.scene.add(this.grid);
-    }
 
     CreateLight(){
         this.lights = {
             ambient: new HemisphereLight(0xddeeff, 0x0f0e0d, 0.02),
-            sun: new PointLight(0xffee88, 1, 300, 1)
+            sun: new PointLight(0xffee88, 1, 1000, 1)
         };
 
         this.lights.sun.castShadow = true;
         this.lights.sun.position.set(0, 50, -200);
-        this.lights.sun.power = 1600;
+        this.lights.sun.power = 200;
 
-        this.lights.ambient.intensity = 2;
+        this.lights.ambient.intensity = 1.5;
 
         this.scene.add(this.lights.sun);
         this.scene.add(this.lights.ambient);
 
     }
 
-    OnLevelLoaded(){
+    OnObjectsLoaded(){
+        console.log('READY LOADED');
+        this.level.start();
+
         this.scene.add(this.level.environment);
         this.CreateLight();
 

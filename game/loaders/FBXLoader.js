@@ -28,7 +28,7 @@
  *		https://wiki.rogiken.org/specifications/file-format/fbx/ (more detail but Japanese)
  */
 import * as THREE from 'three'
-
+import ZLib from 'zlibjs'
 
 class FBXLoader {
 
@@ -3106,7 +3106,7 @@ class FBXLoader {
 
 					}
 
-					if ( window.Zlib === undefined ) {
+					if ( Zlib === undefined ) {
 
 						console.error( 'THREE.FBXLoader: External library Inflate.min.js required, obtain or import from https://github.com/imaya/zlib.js' );
 

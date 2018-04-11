@@ -12,10 +12,10 @@
   },
   "dependencies": {
     "cross-env": "^5.1.4",
-    "gsap": "^1.20.4",
     "node-sass": "^4.8.3",
     "nuxt": "^1.4.0",
     "sass-loader": "^6.0.7",
-    "three": "^0.91.0"
+    "three": "^0.91.0",
+    "zlibjs": "^0.3.1"
   }
 }

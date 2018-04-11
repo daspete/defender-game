@@ -173,6 +173,7 @@ class Entity extends Group {
         }
 
         this.lookAt(direction);
+        this.mesh.lookAt(direction);
 
     }
     
