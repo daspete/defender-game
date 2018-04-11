@@ -12,9 +12,18 @@
  * @author: Jack Doyle, jack@greensock.com
  **/
 
+/*!
+ * The buffer module from node.js, for the browser.
+ *
+ * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
+ * @license  MIT
+ */
+
 //!\ DECLARE ALIAS AFTER assign prototype !
 
 //!\ DECLARE ALIAS AFTER assign prototype !
+
+/** @license zlib.js 2012 - imaya [ https://github.com/imaya/zlib.js ] The MIT License */
 
 /*!
  * Vue.js v2.5.16
