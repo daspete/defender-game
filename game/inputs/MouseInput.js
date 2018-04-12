@@ -12,10 +12,13 @@ class MouseInput {
         };
 
         this.game.settings.container.removeEventListener('mousemove', (e) => { this.OnMouseMove(e) }, false);
-        this.game.settings.container.removeEventListener('mousedown', (e) => { this.OnMouseDown(e) }, false);
-
         this.game.settings.container.addEventListener('mousemove', (e) => { this.OnMouseMove(e) }, false);
+        
+        this.game.settings.container.removeEventListener('mousedown', (e) => { this.OnMouseDown(e) }, false);
         this.game.settings.container.addEventListener('mousedown', (e) => { this.OnMouseDown(e) }, false);
+
+        this.game.settings.container.removeEventListener('wheel', (e) => { this.OnMouseWheel(e) }, false);
+        this.game.settings.container.addEventListener('wheel', (e) => { this.OnMouseWheel(e) }, false);
     }
 
     OnMouseMove(e){
@@ -38,6 +41,12 @@ class MouseInput {
         this.game.events.emit('mousedown', {
             position,
             button: e.which
+        });
+    }
+
+    OnMouseWheel(e){
+        this.game.events.emit('mousewheel', {
+            y: e.deltaY
         });
     }
 

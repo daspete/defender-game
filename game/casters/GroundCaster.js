@@ -30,7 +30,7 @@ class GroundCaster {
     }
 
     OnMouseMove(position){
-        this.raycaster.setFromCamera(position, this.game.camera);
+        this.raycaster.setFromCamera(position, this.game.controllers.camera.camera);
 
         let intersects = this.raycaster.intersectObjects([this.ground]);
 
@@ -44,7 +44,7 @@ class GroundCaster {
 
     OnMouseDown(result){
         console.log(result);
-        this.raycaster.setFromCamera(result.position, this.game.camera);
+        this.raycaster.setFromCamera(result.position, this.game.controllers.camera.camera);
 
         let intersects = this.raycaster.intersectObjects([this.ground]);
 

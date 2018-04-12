@@ -15,6 +15,15 @@ export default {
 
     components: {
         Game
+    },
+
+    head(){
+        return {
+            title: 'TestLevel',
+            meta: [
+                { name: 'description', content: 'Defend the core, bugs are everywhere :O' }
+            ]
+        }
     }
 
 }

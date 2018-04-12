@@ -25,6 +25,7 @@ import Pathfinder from './pathfinding/Pathfinder'
 import TestLevel from './levels/TestLevel'
 
 import ObjectLoader from './loaders/ObjectLoader'
+import CameraController from './controllers/CameraController';
 
 
 class GameController {
@@ -34,11 +35,6 @@ class GameController {
 
         this.events = new EventController();
         this.scene = new Scene();
-
-        this.camera = new PerspectiveCamera(75, this.settings.width / this.settings.height, 0.1, 1000);
-
-        this.camera.position.set(0, 40, -110);
-        this.camera.lookAt(new Vector3(0, 0, -150));
 
         this.renderer = new WebGLRenderer({ antialias: true });
         this.renderer.physicallyCorrectLights = true;
@@ -86,7 +82,8 @@ class GameController {
         this.controllers = {
             player: new PlayerController(this),
             tower: new TowerController(this),
-            creep: new CreepController(this)
+            creep: new CreepController(this),
+            camera: new CameraController(this)
         };
 
         this.levels = {
@@ -143,8 +140,9 @@ class GameController {
 
         this.controllers.player.Update();
         this.controllers.creep.Update();
+        this.controllers.camera.Update();
 
-        this.renderer.render(this.scene, this.camera);
+        this.renderer.render(this.scene, this.controllers.camera.camera);
     }
 
     Sleep(ms) {
