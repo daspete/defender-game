@@ -43,7 +43,7 @@ class DruidCreep {
         this.entity.avoidDistance = 2;
         this.entity.radius = 5;
         this.entity.wander();
-        this.entity.avoid(this.game.controllers.creep.entities);
+        //this.entity.avoid(this.game.controllers.creep.entities);
         this.entity.lookWhereGoing(true);
         this.entity.update();
         this.mesh.position.copy(this.entity.position);

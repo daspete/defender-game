@@ -34,23 +34,26 @@ class GroundCaster {
 
         let intersects = this.raycaster.intersectObjects([this.ground]);
 
+        let gridSize = 4;
+
         if(intersects.length > 0){
             this.movePosition.copy(intersects[0].point).add(intersects[0].face.normal);
-            this.movePosition.divideScalar(2).floor().multiplyScalar(2).addScalar(1);
+            this.movePosition.divideScalar(gridSize).floor().multiplyScalar(gridSize).addScalar(gridSize * 0.5);
 
             this.game.events.emit('ground.hit.move', this.movePosition);
         }
     }
 
     OnMouseDown(result){
-        console.log(result);
         this.raycaster.setFromCamera(result.position, this.game.controllers.camera.camera);
 
         let intersects = this.raycaster.intersectObjects([this.ground]);
 
+        let gridSize = 4;
+
         if(intersects.length > 0){
             this.touchPosition.copy(intersects[0].point).add(intersects[0].face.normal);
-            this.touchPosition.divideScalar(2).floor().multiplyScalar(2).addScalar(1);
+            this.touchPosition.divideScalar(gridSize).floor().multiplyScalar(gridSize).addScalar(gridSize * 0.5);
 
             if(result.button == 1){
                 this.game.events.emit('ground.hit.touch', this.touchPosition);

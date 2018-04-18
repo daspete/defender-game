@@ -66,6 +66,10 @@ class GameController {
                 {
                     name: 'xfighter',
                     url: 'assets/models/creeps/XFighter.fbx'
+                },
+                {
+                    name: 'basetower',
+                    url: 'assets/models/towers/BaseTower.fbx'
                 }                
             ],
             callback: () => { this.OnObjectsLoaded(); }
@@ -92,8 +96,6 @@ class GameController {
         this.level = this.levels.testLevel;
 
         this.pathfinder = new Pathfinder(this);
-
-        //this.levels.testLevel.LoadLevel(() => { this.OnLevelLoaded() });
     }
 
 
@@ -115,7 +117,6 @@ class GameController {
     }
 
     OnObjectsLoaded(){
-        console.log('READY LOADED');
         this.level.start();
 
         this.scene.add(this.level.environment);
@@ -138,9 +139,10 @@ class GameController {
     Update(){
         requestAnimationFrame(() => { this.Update() });
 
-        this.controllers.player.Update();
-        this.controllers.creep.Update();
-        this.controllers.camera.Update();
+        setTimeout(() => { this.controllers.player.Update(); }, 0);
+        setTimeout(() => { this.controllers.creep.Update(); }, 1);
+        setTimeout(() => { this.controllers.tower.Update(); }, 2);
+        setTimeout(() => { this.controllers.camera.Update(); }, 3);
 
         this.renderer.render(this.scene, this.controllers.camera.camera);
     }

@@ -23,13 +23,16 @@ class EventController {
         return false;
     }
 
-    emit(label, ...args){
+    async emit(label, ...args){
         let listeners = this.listeners.get(label);
 
         if(listeners && listeners.length){
-            listeners.forEach((listener) => {
-                listener(...args);
-            });
+            for(let i = 0; i < listeners.length; i++){
+                listeners[i](...args);
+            }
+            // listeners.forEach((listener) => {
+            //     listener(...args);
+            // });
 
             return true;
         }

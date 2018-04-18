@@ -15,9 +15,9 @@ class BuildMode {
         this.raycaster = new Raycaster();
 
         this.ghost = MeshGenerator.Cube({
-            width: 1.1,
-            height: 1.1,
-            depth: 1.1,
+            width: 2,
+            height: 2,
+            depth: 2,
             material: {
                 color: 0x00ff00,
                 opacity: 0.5,

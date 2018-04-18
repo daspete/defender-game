@@ -1,4 +1,5 @@
 import {
+    Vector3,
     Object3D,
     ObjectLoader
 } from 'three'
@@ -7,36 +8,47 @@ import MeshGenerator from '../generators/MeshGenerator'
 
 import BuildMode from '../modes/BuildMode'
 
-import Tower1 from '~/assets/models/towers/Tower1.json'
+import BaseTower from '../towers/BaseTower'
+
 
 class TowerController {
 
     constructor(game){
         this.game = game;
-        this.loader = new ObjectLoader();
+
+        this.towerPrefabs = [
+            BaseTower
+        ];
 
         this.towers = [];
     }
 
     BuildTower(settings){
         let tower = MeshGenerator.Cube({
-            width: 1,
-            height: 2,
-            depth: 1,
+            width: 2,
+            height: 4,
+            depth: 2,
             material: {
                 opacity: 0,
                 transparent: true
             }
         });
 
-        let towerGraphic = this.loader.parse(Tower1);
-        tower.add(towerGraphic);
+
+        let _tower = new this.towerPrefabs[0](this.game, {
+            position: new Vector3(0,0,0)
+        });
+
+        tower.add(_tower.mesh);
 
         this.game.scene.add(tower);
         
         tower.position.copy(settings.position);
+        tower._tower = _tower;
 
         this.towers.push(tower);
+
+        this.game.pathfinder.AddObstacle(settings.position);
     }
 
     DestroyTower(tower){
@@ -45,12 +57,18 @@ class TowerController {
         });
 
         _tower.visible = false;
+
+        this.game.pathfinder.RemoveObstacle(_tower.position);
         
         this.game.scene.remove(_tower);
         
         this.towers.splice(this.towers.indexOf(tower), 1);
+    }
 
-        console.log(this.towers);
+    Update(){
+        for(let i = 0; i < this.towers.length; i++){
+            this.towers[i]._tower.update();
+        }
     }
 
 }
