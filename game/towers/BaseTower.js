@@ -21,11 +21,15 @@ class BaseTower {
 
     initMesh(){
         this.mesh.traverse((obj) => {
+            if(obj.type == 'Mesh'){
+                obj.material.shininess = 0;
+            }
+            
+
             if(obj.name == 'RotationPoint' ||
                 obj.name == 'Stand' ||
                 obj.name == 'Sockel'){
-                obj.material.shininess = 0;
-                //obj.receiveShadow = true;
+
                 obj.castShadow = true;
             }
         });

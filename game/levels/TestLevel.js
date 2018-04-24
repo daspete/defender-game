@@ -1,5 +1,9 @@
 import FBXLoader from '../loaders/FBXLoader'
 
+import {
+    Vector3
+} from 'three'
+
 import MeshGenerator from '../generators/MeshGenerator'
 
 class TestLevel {
@@ -23,6 +27,8 @@ class TestLevel {
                 }
             }
         });
+
+        this.environment.position.set(0,0,0);
     }
 
 }

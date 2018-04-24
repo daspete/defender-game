@@ -139,10 +139,10 @@ class GameController {
     Update(){
         requestAnimationFrame(() => { this.Update() });
 
-        setTimeout(() => { this.controllers.player.Update(); }, 0);
-        setTimeout(() => { this.controllers.creep.Update(); }, 1);
-        setTimeout(() => { this.controllers.tower.Update(); }, 2);
-        setTimeout(() => { this.controllers.camera.Update(); }, 3);
+        this.controllers.player.Update();
+        this.controllers.creep.Update();
+        this.controllers.tower.Update();
+        this.controllers.camera.Update();
 
         this.renderer.render(this.scene, this.controllers.camera.camera);
     }

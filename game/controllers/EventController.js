@@ -30,9 +30,6 @@ class EventController {
             for(let i = 0; i < listeners.length; i++){
                 listeners[i](...args);
             }
-            // listeners.forEach((listener) => {
-            //     listener(...args);
-            // });
 
             return true;
         }

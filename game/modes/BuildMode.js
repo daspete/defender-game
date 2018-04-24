@@ -35,7 +35,16 @@ class BuildMode {
     }
 
     OnMove(position){
-        this.ghost.position.copy(position);
+        if(this.IsValidPosition(position) == false){
+            this.ghost.visible = false;
+            return;
+        }else{
+            this.ghost.visible = true;
+            this.ghost.position.copy(position);
+        }
+        
+
+        
         
         if(this.IsTowerOnPosition(position) == true){
             this.SetDestroyMode();
@@ -45,6 +54,14 @@ class BuildMode {
         this.SetBuildMode();
 
         
+    }
+
+    IsValidPosition(position){
+        if(position.x < -100 || position.z < -500 || position.x > 100 || position.z > 500){
+            return false;
+        }else{
+            return true;
+        }
     }
 
     SetBuildMode(){
@@ -60,6 +77,7 @@ class BuildMode {
     }
 
     OnTouch(position){
+        if(this.IsValidPosition(position) == false) return false;
         if(this.GetTowerOnPosition(position) != false) return false;
         
         this.game.controllers.tower.BuildTower({

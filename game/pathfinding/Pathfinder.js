@@ -13,59 +13,62 @@ class Pathfinder {
         this.sizeX = 100;
         this.sizeZ = 500;
         this.scale = 0.25;
+
+        this.finder = new PF.AStarFinder({
+            allowDiagonal: true,
+            dontCrossCorners: true
+        });
     }
 
     AddObstacle(position){
-        let positionX = Math.round((position.x + this.sizeX) * this.scale) - 1;
-        let positionZ = Math.round((position.z + this.sizeZ) * this.scale) - 1;
+        position = this.GetGridPosition(position);
 
-        this.grid.setWalkableAt(positionX, positionZ, false);
+        this.grid.setWalkableAt(position.x, position.z, false);
 
         this.game.controllers.creep.UpdatePathes();
     }
 
-    RemoveObstacle(position){
-        let positionX = Math.round((position.x + this.sizeX) * this.scale) - 1;
-        let positionZ = Math.round((position.z + this.sizeZ) * this.scale) - 1;
+    GetGridPosition(position){
+        let positionX = Math.floor((position.x + this.sizeX) * this.scale);
+        let positionZ = Math.floor((position.z + this.sizeZ) * this.scale);
 
-        this.grid.setWalkableAt(positionX, positionZ, true);
+        return {
+            x: positionX,
+            z: positionZ
+        };
+    }
+
+    SetGridPosition(position){
+        return new Vector3(
+            (parseFloat(position[0]) / this.scale) - this.sizeX + 0.5,
+            0,
+            (parseFloat(position[1]) / this.scale) - this.sizeZ + 0.5
+        )
+    }
+
+    RemoveObstacle(position){
+        position = this.GetGridPosition(position);
+
+        this.grid.setWalkableAt(position.x, position.z, true);
 
         this.game.controllers.creep.UpdatePathes();
     }
 
     FindPath(start, end){
-        let startX = Math.round((start.x + this.sizeX) * this.scale) - 1;
-        let startZ = Math.round((start.z + this.sizeZ) * this.scale) - 1;
-
-        let endX = Math.round((end.x + this.sizeX) * this.scale) - 1;
-        let endZ = Math.round((end.z + this.sizeZ) * this.scale) - 1;
-
-        if(startX < 0 || startZ < 0 || startX > this.sizeX - 1 || startZ > this.sizeZ - 1) return false;
-        if(endX < 0 || endZ < 0 || endX > this.sizeX - 1 || endZ > this.sizeZ - 1) return false;
+        start = this.GetGridPosition(start);
+        end = this.GetGridPosition(end);
         
-        startX = Math.abs(startX);
-        startZ = Math.abs(startZ);
-
-        endX = Math.abs(endX);
-        endZ = Math.abs(endZ);
+        if(start.x < 0 || start.z < 0 || start.x > this.sizeX - 1 || start.z > this.sizeZ - 1) return false;
+        if(end.x < 0 || end.z < 0 || end.x > this.sizeX - 1 || end.z > this.sizeZ - 1) return false;
 
         let grid = this.grid.clone();
 
-        let finder = new PF.AStarFinder({
-            allowDiagonal: true,
-            dontCrossCorners: true
-        });
-
-        let gridPath = finder.findPath(startX, startZ, endX, endZ, grid);
+        let gridPath = this.finder.findPath(start.x, start.z, end.x, end.z, grid);
 
         let path = [];
 
         for(let i = 0; i < gridPath.length; i++){
-            path.push(new Vector3(
-                (parseFloat(gridPath[i][0]) / this.scale) - this.sizeX + 0.5,
-                0,
-                (parseFloat(gridPath[i][1]) / this.scale) - this.sizeZ + 0.5
-            ));
+            path.push(this.SetGridPosition(gridPath[i]));
         }
 
         return path;

@@ -45,7 +45,6 @@ class CreepController {
 
     Update(){
         for(let i = 0; i < this.creeps.length; i++){
-            //setTimeout(() => { this.creeps[i].update(); }, i);
             this.creeps[i].update();
         }
     }

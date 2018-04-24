@@ -8,24 +8,26 @@ class CameraController {
     constructor(game){
         this.game = game;
 
+        this.cameraHeight = 90;
+
         this.camera = new PerspectiveCamera(75, this.game.settings.width / this.game.settings.height, 0.1, 1000);
 
-        this.camera.position.set(0, 40, -110);
+        this.camera.position.set(0, this.cameraHeight, -110);
         
 
         this.lookPosition = new Vector3(0, 0, -150);
 
-        this.xRange = 30;
-        this.zRange = 400;
-        this.yMin = 20;
-        this.yMax = 90;
+        this.xRange = 50;
+        this.zRange = 500;
+        this.yMin = 30;
+        this.yMax = 190;
         
         
 
         this.moveX = false;
         this.moveZ = false;
 
-        this.cameraHeight = 50;
+        
 
         this.game.events.on('mousemove', (position) => { this.OnMouseMove(position) });
         this.game.events.on('mousewheel', (data) => { this.OnMouseWheel(data) });
@@ -33,7 +35,7 @@ class CameraController {
 
     OnMouseWheel(data){
         let delta = data.y * 0.01;
-        let scrollSpeed = 0.5 * delta;
+        let scrollSpeed = 2 * delta;
 
         let height = this.cameraHeight;
 
@@ -54,8 +56,8 @@ class CameraController {
         let xSector = 0.9;
         let zSector = 0.7;
 
-        let xSpeed = 0.7;
-        let zSpeed = 0.7;
+        let xSpeed = 1.7;
+        let zSpeed = 1.7;
 
         if(position.x < -xSector){
             this.moveX = -xSpeed;
