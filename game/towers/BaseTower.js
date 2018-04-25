@@ -4,6 +4,8 @@ import {
     ObjectLoader
 } from 'three'
 
+import TowerStats from './../stats/TowerStats'
+
 class BaseTower {
 
     constructor(game, settings){
@@ -17,6 +19,8 @@ class BaseTower {
         let scale = 0.025;
         this.mesh.scale.set(scale, scale, scale);
         this.mesh.position.set(settings.position.x, 0, settings.position.z);
+
+        this.stats = new TowerStats(this.game, this);
     }
 
     initMesh(){
@@ -37,7 +41,7 @@ class BaseTower {
 
 
     update(){
-        
+        this.stats.Update();
     }
 
 }

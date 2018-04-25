@@ -35,16 +35,17 @@ class TowerController {
             }
         });
 
-        // let _tower = new this.towerPrefabs[0](this.game, {
-        //     position: new Vector3(0,0,0)
-        // });
+        let _tower = new this.towerPrefabs[0](this.game, {
+            position: new Vector3(0,0,0)
+        });
 
         // tower.add(_tower.mesh);
 
         this.game.scene.add(tower);
         
         tower.position.copy(settings.position);
-        // tower._tower = _tower;
+        tower._tower = _tower;
+        _tower.settings.position.copy(settings.position);
 
         this.towers.push(tower);
 
@@ -66,9 +67,9 @@ class TowerController {
     }
 
     Update(){
-        // for(let i = 0; i < this.towers.length; i++){
-        //     this.towers[i]._tower.update();
-        // }
+        for(let i = 0; i < this.towers.length; i++){
+            this.towers[i]._tower.update();
+        }
     }
 
 }

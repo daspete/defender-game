@@ -8,7 +8,7 @@ class CameraController {
     constructor(game){
         this.game = game;
 
-        this.cameraHeight = 90;
+        this.cameraHeight = 180;
 
         this.camera = new PerspectiveCamera(75, this.game.settings.width / this.game.settings.height, 0.1, 1000);
 
@@ -20,7 +20,7 @@ class CameraController {
         this.xRange = 50;
         this.zRange = 500;
         this.yMin = 30;
-        this.yMax = 190;
+        this.yMax = 290;
         
         
 

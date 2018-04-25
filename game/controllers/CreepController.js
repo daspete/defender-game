@@ -26,9 +26,9 @@ class CreepController {
     }
 
     SpawnCreep(settings){
-        if(this.creeps.length > 10) return;
-        let x = Math.round(-100 + Math.random() * 200);
-        let z = Math.round(-300 + Math.random() * 200);
+        if(this.creeps.length >= 20) return;
+        let x = Math.round(-80 + Math.random() * 200);
+        let z = Math.round(-500 + Math.random() * 200);
         x = x % 2 == 0 ? x : x + 1;
 
         let prefabIndex = Math.round(Math.random() * (this.creepPrefabs.length - 1));
@@ -43,6 +43,11 @@ class CreepController {
         this.entities.push(creep.entity);
     }
 
+    RemoveCreep(creep){
+        this.game.scene.remove(creep.mesh);
+        this.creeps.splice(this.creeps.indexOf(creep), 1);
+    }
+
     Update(){
         for(let i = 0; i < this.creeps.length; i++){
             this.creeps[i].update();
@@ -51,7 +56,10 @@ class CreepController {
 
     UpdatePathes(){
         for(let i = 0; i < this.creeps.length; i++){
-            setTimeout(() => { this.creeps[i].UpdatePath(); }, i);
+            setTimeout(() => { 
+                if(typeof this.creeps[i] === 'undefined') return;
+                this.creeps[i].UpdatePath(); 
+            }, i);
         }
     }
 

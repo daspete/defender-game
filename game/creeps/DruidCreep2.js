@@ -6,6 +6,7 @@ import {
 
 import MeshGenerator from '../generators/MeshGenerator'
 import SteeringEntity from '../pathfinding/SteeringEntity'
+import CreepStats from '../stats/CreepStats'
 
 class DruidCreep {
 
@@ -24,12 +25,19 @@ class DruidCreep {
 
         this.entity.loop = false;
         this.entity.thresholdRadius = 2;
-        this.entity.maxSpeed = 0.2;
-        this.entity.maxForce = 0.2;
+        this.entity.maxSpeed = 0.5;
+        this.entity.maxForce = 0.5;
 
         this.path = [];
 
-        this.path = this.game.pathfinder.FindPath(settings.position, new Vector3(90, 0, 300));
+        let x = Math.round(-80 + Math.random() * 200);
+        x = x % 2 == 0 ? x : x + 1;
+
+        this.goal = new Vector3(x, 0, 10);
+
+        this.path = this.game.pathfinder.FindPath(settings.position, this.goal);
+
+        this.stats = new CreepStats(this.game, this);
     }
 
     initMesh(){
@@ -42,7 +50,7 @@ class DruidCreep {
     }
 
     UpdatePath(){
-        this.path = this.game.pathfinder.FindPath(this.entity.position, new Vector3(90, 0, 300));
+        this.path = this.game.pathfinder.FindPath(this.entity.position, this.goal);
         if(this.path){
             this.entity.pathIndex = 2;
         }
@@ -50,6 +58,11 @@ class DruidCreep {
 
 
     update(){
+        if(this.entity.position.distanceTo(this.goal) < 10){
+            this.stats.GoalArrived();
+            return;
+        }
+
         if(this.path){
             this.entity.followPath(this.path, this.entity.loop, this.entity.thresholdRadius);
             this.entity.lookWhereGoing(true);

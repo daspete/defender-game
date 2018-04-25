@@ -24,19 +24,13 @@ class MouseInput {
     OnMouseMove(e){
         e.preventDefault();
 
-        this.game.events.emit('mousemove', new Vector2().set(
-            (e.clientX / this.game.settings.width) * 2 - 1,
-            -(e.clientY / this.game.settings.height) * 2 + 1
-        ));
+        this.game.events.emit('mousemove', this.GetMousePosition(e));
     }
 
     OnMouseDown(e){
         e.preventDefault();
 
-        let position = new Vector2().set(
-            (e.clientX / this.game.settings.width) * 2 - 1,
-            -(e.clientY / this.game.settings.height) * 2 + 1
-        );
+        let position = this.GetMousePosition(e);
 
         this.game.events.emit('mousedown', {
             position,
@@ -48,6 +42,16 @@ class MouseInput {
         this.game.events.emit('mousewheel', {
             y: e.deltaY
         });
+    }
+
+    GetMousePosition(e){
+        let positionX = e.clientX;
+        let positionY = e.clientY;
+
+        return new Vector2(
+            (positionX / this.game.settings.width) * 2 - 1,
+            -(positionY / this.game.settings.height) * 2 + 1
+        );
     }
 
 }
